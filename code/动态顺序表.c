@@ -130,7 +130,7 @@ int main(){
 	PrintList(&L);
 	
 	FindAtPosition(&L,5);
-	DestroyList(&L);
+	DestroyList(&L); 
 	
 	return 0;
 }
