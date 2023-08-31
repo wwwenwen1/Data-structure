@@ -120,24 +120,25 @@ int deleteByPosition(staticLinkList L,int deletePosition){
 //按值删除
 //1.检查链表是否为空 2.找到目标节点的前缀节点 3.把前缀节点的next改为目标节点的后继节点 4.把目标节点的data设为0
 int deleteByValue(staticLinkList L,int value){
-    int priorPointer = 1;
+    int currentPointer = 0;
+    int priorPointer = 0;
     if(L[0].data==0){
         printf("链表为空\n");
         return 1;
     }
-    //寻找目标元素的前缀节点
-    while(L[priorPointer].data!=value){
-        if(L[priorPointer].next==-1){
+    //找到目标节点的前缀节点
+    while(L[currentPointer].data!=value){
+        if(L[currentPointer].next==-1){
             printf("遍历结束,没有找到目标元素!\n");
             return 1;
         }
-        priorPointer=L[priorPointer].next;
+        priorPointer = currentPointer;
+        currentPointer=L[currentPointer].next;
     }
-    L[priorPointer].next = L[L[priorPointer].next].next;
-    L[L[priorPointer].next].next = 0;
-    L[L[priorPointer].next].data = 0;
+    L[priorPointer].next = L[currentPointer].next;
+    L[currentPointer].next = 0;
+    L[currentPointer].data = 0;
     L[0].data--;
-
     return 0;
 }
 //按位查找
@@ -220,5 +221,6 @@ int main(){
     deleteByPosition(L,2);
     deleteByValue(L,3);
     printList(L);
+    printf("in |%d| is |%d|,\n",2,getByposition(L,2));
     return 0;
 }
