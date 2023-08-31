@@ -31,37 +31,33 @@ int initList(staticLinkList L){
 //按照位置插入
 //1.判断插入位置2.找到一个空的节点3.找到插入位置的前一个节点4.修改插入位置前一个节点的next为新节点的位序5.修改新节点的next为插入位置的位序
 int insertAtPosition(staticLinkList L,int insertPosition,int insertData){//insertPosition代表位序，从1开始
-    int priorPoniter = 0;//存储插入位置的前一个节点的位序
+    int priorPointer = 0;//存储插入位置的前一个节点的位序
     //判断链表是否已满
     if(L[0].data==MAXSIZE-1){
-        printf("链表已满\n");
+        printf("链表已满,无法在%d插入%d。\n",insertPosition,insertData);
         return 1;
     }
     //判断插入位置是否合法
-    if(insertPosition<1 || insertPosition>MAXSIZE){
+    if(insertPosition<1 || insertPosition>L[0].data+1){   //||表示or，&&表示and
         printf("插入位置不合法\n");
         return 1;
     }
-    //判断插入位置时候存在
-    if(L[0].data<=insertPosition){
-        printf("插入位置不存在\n");
-        return 1;
-    }
-   //找到一个空的位序
-   for(int newPointer=1;newPointer<MAXSIZE;newPointer++){
+   //找到一个空的位序，空位序的next被初始化为0
+   for(int newPointer=1;newPointer<MAXSIZE;newPointer++){//从数组的位序1开始遍历，而不是链表的位序
        if(L[newPointer].next==0){
-            L[newPointer].data = insertData;
-            L[newPointer].next = insertPosition;
-
-            while(L[priorPoniter].next!=insertPosition){//找到插入位置的前一个节点的位序
-                priorPoniter = L[priorPoniter].next;
+           //找到插入位置的前一个节点的位序
+            while(priorPointer!=insertPosition-1){//让priorPointer往后遍历，直到priorPointer等于insertPosition的前一个位序
+                priorPointer=L[priorPointer].next;
             }
-            L[priorPoniter].next = newPoniter;//修改插入位置前一个节点的next为新节点的位序
+            //此时newPointer应该指向空节点，priorPointer指向目标节点的前一个节点
+            L[newPointer].data=insertData;
+            L[newPointer].next=L[priorPointer].next;
+            L[priorPointer].next=newPointer;
             L[0].data++;
+
             return 0;
-       }
+        }
     }
-    return 1;
 }
 //插入到某个元素值之后
 //1.判断链表是否已满2.找到这个元素3.找到一个空位序，填入数据4.修改新元素的next指向目标元素的后继元素，修改目标元素的next指向新元素
@@ -94,7 +90,7 @@ int insertAfterValue(staticLinkList L,int value,int insertData){
 }
 //按位删除
 //1.检查输入位置2.找到删除节点的前缀节点3.把前缀节点的next改为目标节点的后缀节点的next,把目标节点的data设为0
-int deleteAtPosition(staticLinkList L,int deletePosition){
+int deleteByPosition(staticLinkList L,int deletePosition){
     int priorPoniter = 0;//存储删除位置的前一个节点的位序
     if(L[0].data==0){
         printf("链表位空\n");
@@ -122,9 +118,9 @@ int deleteAtPosition(staticLinkList L,int deletePosition){
     return 0;
 }
 //按值删除
-//1.检查链表是否为空 2.找到目标节点的前缀节点 3.把前缀节点的next改为目标节点的后继节点 4.把后继节点
-int deleteAtValue(staticLinkList L,int value){
-    int priorPointer = 0;
+//1.检查链表是否为空 2.找到目标节点的前缀节点 3.把前缀节点的next改为目标节点的后继节点 4.把目标节点的data设为0
+int deleteByValue(staticLinkList L,int value){
+    int priorPointer = 1;
     if(L[0].data==0){
         printf("链表为空\n");
         return 1;
@@ -185,17 +181,13 @@ int getByValue(staticLinkList L,int value){
     return currentPointer;
 }
 //打印链表
-int printList(staticLinkList L){
-    int currentPointer = 0;
-    if(L[0].data==0){
-        printf("链表为空\n");
-        return 1;
-    }
-    while(L[currentPointer].next!=-1){
-        printf("%d ",L[currentPointer].data);
-        currentPointer = L[currentPointer].next;
-    }
-    printf("%d\n",L[currentPointer].data);
+int printList(const staticLinkList L){
+    int currentIndex=1;
+    do{
+        printf("%d    \n",L[currentIndex].data);
+        currentIndex=L[currentIndex].next;
+    }while(currentIndex!=-1);
+    printf("total:  %d\n",L[0].data);
     return 0;
 }
 //摧毁链表
@@ -217,11 +209,16 @@ int isEmpty(staticLinkList L){
 int getLength(staticLinkList L){
     return L[0].data;
 }
-
-
 int main(){
     staticLinkList L;
     initList(L);
-
+    insertAtPosition(L,1,1);
+    insertAtPosition(L,2,2);
+    insertAtPosition(L,3,3);
+    insertAtPosition(L,4,4);
+    insertAfterValue(L,2,5);
+    deleteByPosition(L,2);
+    deleteByValue(L,3);
+    printList(L);
     return 0;
 }
