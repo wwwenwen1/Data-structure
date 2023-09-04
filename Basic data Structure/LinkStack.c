@@ -7,9 +7,15 @@ typedef struct node{
     struct node *next;
 }Lnode,*LinkStack;
 
+/*等价于：
+typedef struct node Lnode;
+typedef struct node* LinkStack;
+*/
 //初始化栈
-int initStack(LinkStack *Lptr){
+int initStack(LinkStack *pointerToList){
     
-
     return 0;
 }
+
+//判断栈是否为空
+int isEmpty(LinkStack )

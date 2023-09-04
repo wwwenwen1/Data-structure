@@ -14,19 +14,19 @@ typedef struct Lnode{
 /*						
 struct Node{
 	int data;
-	struct Lnode *next;
+	struct node *next;
 };			
 typedef struct Node LNode;      //把LNode定义为Node类型结构体的别名，使得
 								//
 typedef struct Node* LinkList;  //把LinkList定义为指向Node类型结构体的指针, 
-*/								//广义代表指向Node类型的指针，狭义代表头指针
+*/		   			        	//广义代表指向Node类型的指针，狭义代表头指针
 
 //初始化单链表
 //不含头结点的链表，仅仅声明一个悬空的头结点就可以了，不需要分配内存
 int initList(LinkList* pointerToList){		//PointerToList为指向LinkList的指针
 	*pointerToList = NULL;					//把PointerToList指向的值设为NULL
 	return 0;
-}	
+}
 
 //指定位置插入
 //因为要修改头指针，所以要传入指向头指针的指针作为参数
