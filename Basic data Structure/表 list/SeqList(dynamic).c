@@ -7,8 +7,7 @@ typedef struct{
 	int maxSize;
 }DynamicList;
 //动态分配
-
-void InitList(DynamicList *L,int size){
+void InitList(DynamicList* L,int size){
 	L->length = 0;
 	L->maxSize = size;
 	L->array = (int*)malloc(L->maxSize * sizeof(int));
@@ -22,8 +21,7 @@ void InitList(DynamicList *L,int size){
 	}
 }                                
 //初始化顺序表
-
-void IncreaseSize(DynamicList *L,int size){
+void IncreaseSize(DynamicList* L,int size){
 	int *temp = L->array;
 	L->array = (int*)malloc((L->maxSize + size)*sizeof(int));
 	if(L->array == NULL){
@@ -32,7 +30,6 @@ void IncreaseSize(DynamicList *L,int size){
 		//判断是否分配成功
 	}
 	for(int i=0;i<L->maxSize;i++){
-	
 		L->array[i] = temp[i];
 		//printf("array[%d] = %d,temp[%d] = %d\n",i,L->array[i],i,temp[i]);
 	}
@@ -40,15 +37,14 @@ void IncreaseSize(DynamicList *L,int size){
 	free(temp);        
 }
 //增加顺序表容量
-
-void PrintList(DynamicList *L){
+void PrintList(DynamicList* L){
 	for(int i=0;i < L->length;i++){
 		printf("position %d : array[%d ] = %d \n",i+1,i,L->array[i]);
 	}
 	printf("--------------------\n");
 }
 
-void InsertAtBegin(DynamicList *L,int value){
+void InsertAtBegin(DynamicList* L,int value){
 	if(L->length >= L->maxSize){
 		printf("List is full.Cannot insert.\n");
 		return;
@@ -62,7 +58,7 @@ void InsertAtBegin(DynamicList *L,int value){
 }
 //头插
 
-void InsertAtEnd(DynamicList *L,int value){
+void InsertAtEnd(DynamicList* L,int value){
 	if(L->length >= L->maxSize){
 		printf("List is full.Cannot insert.\n");
 		return;
@@ -72,7 +68,7 @@ void InsertAtEnd(DynamicList *L,int value){
 }
 //尾插
 
-void InsertAtPosition(DynamicList *L,int value,int position){
+void InsertAtPosition(DynamicList* L,int value,int position){
 	if((L->length >= L->maxSize) || (position > L->length + 1)){
 		printf("Invalid position or list is full.Cannot insert.\n");
 		return;
@@ -85,7 +81,7 @@ void InsertAtPosition(DynamicList *L,int value,int position){
 }
 //指定位置插入
 
-void DeleteAtPosition(DynamicList *L,int position){ //position代表位序，position-1代表下标
+void DeleteAtPosition(DynamicList* L,int position){ //position代表位序，position-1代表下标
 	if(position > L->length){
 		printf("Invalid position or list is empty.cannot delete.\n");
 	}
@@ -97,7 +93,7 @@ void DeleteAtPosition(DynamicList *L,int position){ //position代表位序，pos
 }
 //指定位置删除
 
-int FindAtPosition(DynamicList *L,int position){
+int FindAtPosition(DynamicList* L,int position){
 	if(position > L->length){
 		printf("Invalid position or list is empty.cannot find.\n");
 	}
@@ -105,7 +101,7 @@ int FindAtPosition(DynamicList *L,int position){
 	return L->array[position-1];
 }
 
-void DestroyList(DynamicList *L) {
+void DestroyList(DynamicList* L) {
     free(L->array);  // 释放顺序表的数组内存
     L->array = NULL; // 将指针置为 NULL，避免出现悬挂指针
     L->length = 0;   // 将顺序表长度置为 0
