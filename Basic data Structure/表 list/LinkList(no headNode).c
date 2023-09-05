@@ -30,9 +30,9 @@ int initList(LinkList* pointerToList){		//PointerToList为指向LinkList的指�
 
 //指定位置插入
 //因为要修改头指针，所以要传入指向头指针的指针作为参数
-//该函数涉及三种情况需要修改链表头指针的指向：1.插入位置为1 2.插入位置为1且链表为空 3.插入位置大于1且链表为空
+//该函数涉及三种情况需要修改链表头指针的指向：1.插入位置为1(把头指针指向从原首节点改为新首节点) 2.插入位置为1且链表为空(把头指针指向从null改为一个节点) 3.插入位置大于1且链表为空 
 //如果能排除这三种情况，则可以传入LinkList List作为参数，不需要修改头指针的指向
-//函数想修改一个变量的值，必须传入这个变量的指针，想修改一个指针的值(头指针)，必须传入这个指针的指针
+//函数想修改一个变量的值，必须传入这个变量的指针(与函数的拷贝传入有关)，想修改一个指针的值(头指针)，必须传入这个指针的指针 
 int insertAtPosition(LinkList* pointerToList,int insertPosition,int insertElement){  	//PointerToList是LinkList*类型的指针里面放头指针的地址;insertPosition代表位序（从1开始)
 	Lnode *currentNode,*newNode;
 	int currentPosition = 1;										

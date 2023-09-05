@@ -1,16 +1,16 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#define MaxSize 10
+#define initSize 10
 typedef struct stack{
     int* array;
     int top;
     int capacity;
 }SeqStack;
 
-int initStack(SeqStack *S,int size){
+int initStack(SeqStack *S){        //传入指向栈的指针S,从而可以修改栈
     S->top = -1;
-    S->array = (int*)malloc(size * sizeof(int));
+    S->array = (int*)malloc(initSize * sizeof(int));
     if(S->array == NULL){
         printf("Memory allocation failed.\n");
         return 1; 
@@ -20,20 +20,20 @@ int initStack(SeqStack *S,int size){
 }
 
 //判断栈是否为空
-int isEmpty(SeqStack S){
+int isEmpty(SeqStack S){                //不需要修改栈，故传入栈
     if(S.top==-1)
         return 1;
     else
         return 0;
 }
 //判断栈是否满
-int isFull(SeqStack S){
+int isFull(SeqStack S){             //同上
     if(S.top==S.capacity-1)
         return 1;
     else
         return 0;
 }
-//拓展容量
+//拓展容量                          //传入栈的指针S,使得函数可以修改栈
 void increaseCapacity(SeqStack* S,int size){
     int *temp=S->array;
     S->array=(int*)malloc((S->capacity+size)*sizeof(int));
@@ -64,9 +64,29 @@ int push(SeqStack *S,int value){
     }
 }
 //查栈顶元素值
-int getTop(){
-
+int getTop(SeqStack S){
+    if(isEmpty){
+        
+    }
+    else{
+        printf("修改栈\n");
+    }
 }
-void DestroyStack(){
+void DestroyStack(SeqStack *S){
+    free(S->array);
+}
 
+int main(){
+    SqStack S;
+    initStack(&S);
+    push(&S, 1);
+    push(&S, 2);
+    push(&S, 3);
+    printf("%d\n", getTop(S));
+    printf("%d\n", pop(&S));
+    printf("%d\n", getTop(S));
+    printf("%d\n", pop(&S));
+    printf("%d\n", getTop(S));
+    printf("%d\n", pop(&S));
+    printf("%d\n", getTop(S));
 }
