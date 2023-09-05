@@ -15,7 +15,7 @@ int initStack(SeqStack *S){        //传入指向栈的指针S,从而可以修�
         printf("Memory allocation failed.\n");
         return 1; 
     }
-    S->capacity=size;
+    S->capacity=initSize;
     return 0;
 }
 
@@ -45,31 +45,34 @@ void increaseCapacity(SeqStack* S,int size){
 }
 //出栈
 int pop(SeqStack* S){
-    if(isEmpty){
+    if(isEmpty(*S)){
         printf("栈空，没有值\n");
         return 1;
     }
     else
-        return S->array[S->top--];
+        S->top--;
+        return S->array[S->top+1];
 }
 //进栈
 int push(SeqStack *S,int value){
-    if(isEmpty){
+    if(isFull(*S)){
         printf("栈满，无法插入\n");
         return 1;
     }
     else{
-        S->array[++S->top]=value;
+        S->top++;
+        S->array[S->top]=value;
         return 0;
     }
 }
 //查栈顶元素值
 int getTop(SeqStack S){
-    if(isEmpty){
-        
+    if(isEmpty(S)){
+        printf("栈为空，无栈顶元素。\n");
+        return 1; 
     }
     else{
-        printf("修改栈\n");
+        return S.array[S.top];
     }
 }
 void DestroyStack(SeqStack *S){
@@ -77,16 +80,16 @@ void DestroyStack(SeqStack *S){
 }
 
 int main(){
-    SqStack S;
+    SeqStack S;
     initStack(&S);
     push(&S, 1);
     push(&S, 2);
     push(&S, 3);
-    printf("%d\n", getTop(S));
-    printf("%d\n", pop(&S));
-    printf("%d\n", getTop(S));
-    printf("%d\n", pop(&S));
-    printf("%d\n", getTop(S));
-    printf("%d\n", pop(&S));
-    printf("%d\n", getTop(S));
+    printf("now top is %d\n", getTop(S));
+    printf("remove %d\n", pop(&S));
+    printf("now top is %d\n", getTop(S));
+    printf("remove %d\n", pop(&S));
+    printf("now top is %d\n", getTop(S));
+    printf("remove %d\n", pop(&S));
+    printf("now top is %d\n", getTop(S));
 }
