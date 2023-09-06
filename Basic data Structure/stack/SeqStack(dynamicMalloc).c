@@ -13,21 +13,21 @@ int initStack(SeqStack *S){        //传入指向栈的指针S,从而可以修�
     S->array = (int*)malloc(initSize * sizeof(int));
     if(S->array == NULL){
         printf("Memory allocation failed.\n");
-        return 1; 
+        return 1;
     }
     S->capacity=initSize;
     return 0;
 }
 
 //判断栈是否为空
-int isEmpty(SeqStack S){                //不需要修改栈，故传入栈
+int isEmpty(SeqStack S){               //不需要修改栈，故传入栈
     if(S.top==-1)
         return 1;
     else
         return 0;
 }
 //判断栈是否满
-int isFull(SeqStack S){             //同上
+int isFull(SeqStack S){            //同上
     if(S.top==S.capacity-1)
         return 1;
     else
@@ -69,7 +69,7 @@ int push(SeqStack *S,int value){
 int getTop(SeqStack S){
     if(isEmpty(S)){
         printf("栈为空，无栈顶元素。\n");
-        return 1; 
+        return 1;
     }
     else{
         return S.array[S.top];
@@ -80,6 +80,7 @@ void DestroyStack(SeqStack *S){
 }
 
 int main(){
+
     SeqStack S;
     initStack(&S);
     push(&S, 1);
@@ -92,4 +93,5 @@ int main(){
     printf("now top is %d\n", getTop(S));
     printf("remove %d\n", pop(&S));
     printf("now top is %d\n", getTop(S));
+
 }

@@ -76,13 +76,13 @@ int main(){
     push(&S, 1);
     push(&S, 2);
     push(&S, 3);
-    printf("%d\n", getTop(S));
-    printf("%d\n", pop(&S));
-    printf("%d\n", getTop(S));
-    printf("%d\n", pop(&S));
-    printf("%d\n", getTop(S));
-    printf("%d\n", pop(&S));
-    printf("%d\n", getTop(S));
+     printf("now top is %d\n", getTop(S));
+    printf("remove %d\n", pop(&S));
+    printf("now top is %d\n", getTop(S));
+    printf("remove %d\n", pop(&S));
+    printf("now top is %d\n", getTop(S));
+    printf("remove %d\n", pop(&S));
+    printf("now top is %d\n", getTop(S));
     
     return 0;
 }

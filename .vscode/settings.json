@@ -59,7 +59,7 @@
       "xutility": "cpp",
       "stdlib.h": "c",
       "string.h": "c",
-      "*.c": "csharp"
+      "*.c": "c"
     },
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "aiXcoder.showTrayIcon": true,
