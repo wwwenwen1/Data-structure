@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 //不含头结点
 //定义了单链表每一节节点的结构，单链表的节点结构为Lnode，单链表的头指针为LinkList			
 typedef struct Lnode{																	
