@@ -9,6 +9,10 @@
 2.类型中增设表示元素个数的数据成员Q.size.
 3.类型中增设tag数据成员，队列中有数据时，tag = 1;无数据时，tag = 0.                                  <------本程序采用
 */
+/*两种rear指针的指向：
+1.rear指向最后一个元素的位置，入队时先移动指针，再赋值,初始化时Q.rear=-1        
+2.rear指向最后一个元素的后面的位置，入队时先赋值，再移动指针,初始化时Q.rear=0   <------本程序采用
+*/
 typedef struct Queue{
     int front;
     int rear;
@@ -45,8 +49,8 @@ int EnQueue(SeqQueue* ptrQ,int value){
     }
     ptrQ->array[ptrQ->rear]=value;                  //2
     ptrQ->rear=(ptrQ->rear+1) % MaxSize;                //3
-    if(ptrQ->tag==0)
-        ptrQ->tag=1;
+    ptrQ->tag=1;
+    
     return 0;
 }
 //出队
@@ -58,8 +62,8 @@ int DeQueue(SeqQueue* ptrQ){
     int value;
     value=ptrQ->array[ptrQ->front];
     ptrQ->front=(ptrQ->front+1) % MaxSize;
-    if(ptrQ->tag==1)
-        ptrQ->tag=0;
+    ptrQ->tag=0;
+
     return value;
 }
 //读取队头
@@ -84,11 +88,12 @@ int main(){
     EnQueue(&Q,7);
     EnQueue(&Q,8);
     EnQueue(&Q,9);
-    EnQueue(&Q,10);
-    EnQueue(&Q,11);
-    EnQueue(&Q,12);
-    EnQueue(&Q,14);
-    EnQueue(&Q,15);
     printf("队头元素为：%d\n",GetHead(Q));
+    printf("队中元素个数%d\n",(Q.rear-Q.front+MaxSize) % MaxSize);
 
 }
+
+
+
+
+
