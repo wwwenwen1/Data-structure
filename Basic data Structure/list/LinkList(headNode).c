@@ -249,7 +249,6 @@ int reverseList(LinkList* pointerToList){
     return 0;
 }
 
-
 //摧毁链表
 int destroyList(LinkList* pointerToList){
     Lnode *currentNode, *tempNode;
