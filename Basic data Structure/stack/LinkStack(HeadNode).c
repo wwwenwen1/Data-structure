@@ -18,6 +18,7 @@ int initStack(LinkStack *ptrL){
         return 0;
     }
     (*ptrL)->data=0;
+    (*ptrL)->next=NULL;
     return 0;
 }
 //
