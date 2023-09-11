@@ -20,6 +20,7 @@ int initStack(LinkStack *ptrL){
         return 0;
     }
     //(*ptrL)->data=0;  头指针的data不再存储栈的长度
+    (*ptrL)->next=NULL;        //头指针的next指向NULL,表示栈为空
     return 0;
 }
 //
@@ -62,7 +63,7 @@ char getTop(LinkStack L){
 
 //检测括号是否匹配的函数
 int bracketcheck(char str[]){
-    int length=strlen(str)+1;
+    int length=strlen(str);
     LinkStack S;
     initStack(&S);
     for(int i=0;i<length;i++){
