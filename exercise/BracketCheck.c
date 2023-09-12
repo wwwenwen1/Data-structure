@@ -62,15 +62,15 @@ char getTop(LinkStack L){
 }
 
 //检测括号是否匹配的函数
-int bracketcheck(char str[]){
+int bracketcheck(char str[]){           //用数组来存储字符串的好处是可以用strlen()函数来获取字符串的长度，而用指针则不行，因为指针只是一个地址，不知道地址后面有多少内容
     int length=strlen(str);
     LinkStack S;
     initStack(&S);
-    for(int i=0;i<length;i++){
+    for(int i=0;i<length;i++){      //遍历字符串,遇到左括号就入栈，遇到匹配的右括号就出栈，遇到不匹配的就返回0
         if(str[i]=='('||str[i]=='['||str[i]=='{'){
             push(&S,str[i]);
         }
-        else if(str[i]==')'||str[i]==']'||str[i]=='}'){
+        else if(str[i]==')'||str[i]==']'||str[i]=='}'){//遇到右括号,判断栈是否为空，如果为空就返回0，如果不为空就判断栈顶元素是否匹配，如果匹配就出栈，如果不匹配就返回0
             if(isEmpty(S)){
                 printf("括号不匹配1.\n");
                 return 0;
@@ -100,7 +100,9 @@ int bracketcheck(char str[]){
 int main(){
     char str[100];
     printf("请输入括号序列：");
-    scanf("%s",str);
+    gets(str); /*gets()函数可以读取空格，但是不安全，因为不知道输入的字符串有多长，可能会造成缓冲区溢出，
+    所以不推荐使用，推荐使用fgets()函数，但是fgets()函数不能读取空格，所以要用空格作为结束标志，但是这样就不能输入包含空格的字符串了，所以还是用gets()函数吧*/
     bracketcheck(str);
     return 0;
 }
+
