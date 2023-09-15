@@ -59,7 +59,8 @@
       "xutility": "cpp",
       "stdlib.h": "c",
       "string.h": "c",
-      "*.c": "c"
+      "*.c": "c",
+      "ctype.h": "c"
     },
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "aiXcoder.showTrayIcon": true,
