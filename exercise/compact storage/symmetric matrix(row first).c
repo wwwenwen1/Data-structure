@@ -6,9 +6,7 @@ typedef struct M{
     int* array;
     int size;
 }Matrix;
-
 //本程序算法采用行优先
-
 //初始化矩阵，设定M.size和给数组分配空间
 int initMatrix(Matrix* ptrM,int size){
     ptrM->size=size;
@@ -55,7 +53,7 @@ int* uncompactMatrix(int* ptrCM,int size){
         for (int column=0;column<size;column++){
             if(row>=column){
                 matrix[row*size+column]=*(ptrCM+row*(row+1)/2+column);  //i*(i-1)/2是第i行的起始地址，j是第i行的偏移量，Sn=n(a1+an)/2=n*a1+n*(n-1)d/2，等差数列求和
-                                                                        //修改了这里，让它能够正确的读取元素，之前是*(ptrCM+i*(i-1)/2+j-1)
+                                                                        //修改了这里，让它能够正确的读取元素，之前是*(ptrCM+i*(i-1)/2+j-1)？？？？？？？
             }else{
                 matrix[row*size+column]=*(ptrCM+column*(column+1)/2+row);//因为是对称矩阵，所以M[i][j]=M[j][i],而M[j][i](j>i)是下三角,可以用套用上面的公式
             }
@@ -82,7 +80,6 @@ int printMatrix(Matrix M){//遍历未压缩的矩阵，进行打印
     }
     return 0;
 }
-
 //从压缩后的矩阵中读取元素
 int getElement(int* CM,int row,int column){//row是行，column是列
     int temp=map(row,column);
