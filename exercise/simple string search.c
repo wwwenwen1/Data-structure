@@ -18,7 +18,7 @@ int StringBruteForceSearch(char text[],char pattern[]){
     }
     if(j==patternLen){
             return i-j;
-        }else{
+        }else{p
             printf("匹配失败\n");
             return -1;
         }
@@ -37,7 +37,7 @@ int main(){
     printf("开始匹配\n");
     int index=StringBruteForceSearch(text,pattern);
     if(index!=-1){
-        printf("匹配成功，匹配的位置为：%d",index+1);
+        printf("匹配成功，匹配的位置为：%d",index);
     }
     return 0;
 }
