@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-
+//栈的应用括号匹配算法
 //直接把链栈的内容拿过来用
 typedef struct node{
     char data;
