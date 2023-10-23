@@ -9,6 +9,7 @@ typedef struct treeNode{
     ElementType data;
     int isEmpty; 
 }treeNode;
+
 int main(){
     treeNode T[MAXSIZE+1];//T[0]不用,对齐下标，T[1]是根节点
     for(int i=1;i<=MAXSIZE;i++){

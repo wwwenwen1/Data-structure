@@ -1,4 +1,3 @@
-#include"LinkQueue(HeadNode).h"//写头文件
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -54,7 +53,7 @@ int deQueue(LinkQueue Q){
     return value;
 }
 //判断是否为空
-int isEmpty(LinkQueue Q){
+int QueueisEmpty(LinkQueue Q){
     if(Q->front->next==NULL)
         return 1;
     else 
@@ -62,7 +61,7 @@ int isEmpty(LinkQueue Q){
 }
 //获取队首元素
 int getHead(LinkQueue Q){
-    if(isEmpty(Q)){
+    if(QueueisEmpty(Q)){
         printf("列表为空，无法获取队首元素.\n");
     }
     else 
@@ -81,7 +80,7 @@ int main(){
     enQueue(Q,3);
     enQueue(Q,4);
     enQueue(Q,5);
-    printf("队列是否为空:%d\n",isEmpty(Q));
+    printf("队列是否为空:%d\n",QueueisEmpty(Q));
     printf("队首元素:%d\n",getHead(Q));
     printf("出队元素:%d\n",deQueue(Q));
     printf("队首元素:%d\n",getHead(Q));
@@ -93,6 +92,6 @@ int main(){
     printf("队首元素:%d\n",getHead(Q));
     printf("出队元素:%d\n",deQueue(Q));
     printf("队首元素:%d\n",getHead(Q));
-    printf("队列是否为空:%d\n",isEmpty(Q));
+    printf("队列是否为空:%d\n",QueueisEmpty(Q));
     return 0;
 }

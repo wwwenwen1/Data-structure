@@ -1,17 +1,23 @@
+#include"../Queue/LinkQueue(HeadNode).h"
+#include"../stack/LinkStack(HeadNode).h"
 #include<stdio.h>
 #include<stdlib.h>
-#include"LinkQueue(HeadNode).h"
-#include"LinStack(HeadNode).h"
+
 #define TRUE 1//定义布尔类型
 #define FALSE 0
 
 typedef char ElementType;//定义树的元素类型
 typedef struct treeNode{
     ElementType data;
-    treeNode* leftChild;
-    treeNode* rightChild;
+    struct treeNode* leftChild;
+    struct treeNode* rightChild;
     //treeNode* parent; //如果需要知道父节点的话，可以加上这一行
 }treeNode,*Tree;
+
+//访问节点的函数
+void visit(Tree T){
+    printf("%c ",T->data);
+}
 
 //先序遍历
 void PreOrder(Tree T) {
@@ -40,22 +46,80 @@ void PostOrder(Tree T) {
 //层序遍历//需要借助队列
 void LevelOrder(Tree T){
     LinkQueue Q;
-    InitQueue(Q);
+    initQueue(&Q);
     Tree ptrTempNode;
     if(T!=NULL){
-        EnQueue(Q,T);
-        while(!IsEmpty(Q)){
-            ptrTempNode=DeQueue(Q);
+        enQueue(Q,T);
+        while(!isEmpty(Q)){
+            ptrTempNode=deQueue(Q);
             visit(ptrTempNode);
             if(ptrTempNode->leftChild!=NULL)
-                EnQueue(Q,ptrTempNode->leftChild);
+                enQueue(Q,ptrTempNode->leftChild);
             if(ptrTempNode->rightChild!=NULL)
-                EnQueue(Q,ptrTempNode->rightChild);
+                enQueue(Q,ptrTempNode->rightChild);
         }
     }
 }
 
 //非递归先序遍历
+void PreOrder2(Tree T){
+    LinkStack S;
+    InitStack(S);
+    Tree ptrTempNode=T;
+    while(ptrTempNode!=NULL||!IsEmpty(S)){
+        if(ptrTempNode!=NULL){
+            visit(ptrTempNode);
+            Push(S,ptrTempNode);
+            ptrTempNode=ptrTempNode->leftChild;
+        }
+        else{
+            Pop(S,ptrTempNode);
+            ptrTempNode=ptrTempNode->rightChild;
+        }
+    }
+}
+//非递归中序遍历
+void InOrder2(Tree T){
+    LinkStack S;
+    InitStack(S);
+    Tree ptrTempNode=T;
+    while(ptrTempNode!=NULL||!IsEmpty(S)){
+        if(ptrTempNode!=NULL){
+            Push(S,ptrTempNode);
+            ptrTempNode=ptrTempNode->leftChild;
+        }
+        else{
+            Pop(S,ptrTempNode);
+            visit(ptrTempNode);
+            ptrTempNode=ptrTempNode->rightChild;
+        }
+    }
+}
+//非递归后序遍历
+void PostOrder2(Tree T){
+    LinkStack S;
+    InitStack(S);
+    Tree ptrTempNode=T;
+    Tree ptrLastVisit=NULL;
+    while(ptrTempNode!=NULL||!IsEmpty(S)){
+        if(ptrTempNode!=NULL){
+            Push(S,ptrTempNode);
+            ptrTempNode=ptrTempNode->leftChild;
+        }
+        else{
+            GetTop(S,ptrTempNode);
+            if(ptrTempNode->rightChild!=NULL&&ptrTempNode->rightChild!=ptrLastVisit){
+                ptrTempNode=ptrTempNode->rightChild;
+            }
+            else{
+                Pop(S,ptrTempNode);
+                visit(ptrTempNode);
+                ptrLastVisit=ptrTempNode;
+                ptrTempNode=NULL;
+            }
+        }
+    }
+}
 
 
 int main(){
@@ -81,6 +145,8 @@ int main(){
     D->rightChild=NULL;
     E->leftChild=NULL;
     E->rightChild=NULL;
+    LevelOrder(A);
+    
 
 
     return 0;    

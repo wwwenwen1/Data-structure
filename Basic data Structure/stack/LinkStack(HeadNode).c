@@ -22,7 +22,7 @@ int initStack(LinkStack *ptrL){
     return 0;
 }
 //
-int isEmpty(LinkStack L){
+int StackisEmpty(LinkStack L){
     if(L->next==NULL)       //if(L->data=0)也可以
         return 1;
     else

@@ -1,11 +1,51 @@
-#include <stdio.h>
-#include<string.h>
+#include "../Basic data Structure/queue/LinkQueue(HeadNode).h"
+#include "../Basic data Structure/stack/LinkStack(HeadNode).h"
+#include<stdio.h>
+#include<stdlib.h>
+
+#define TRUE 1//定义布尔类型
+#define FALSE 0
+
 int main(){
-    char text[100];
-    char pattern[100];//模式串，模式串不是子串，子串是主串的一部分，模式串不一定是主串的一部分
-    printf("请输入主串；");
-    fgets(text, sizeof(text), stdin);//fgets()函数用于从指定的流 stream 读取一行，并把它存储在 str 所指向的字符串内。当读取(n-1)个字符时，或者读取到换行符时，或者到达文件末尾时，它会停止，具体视情况而定。
-    text[strcspn(text, "\n")] = '\0';//strcspn()函数用于检索字符串 str1 中第一个匹配字符串 str2 中字符的字符，该匹配发生在字符串 str1 的前 n 个字符。如果成功，函数返回字符串 str1 中第一个匹配的字符的下标；如果不匹配，函数返回 0。
-    printf("主串长度为：%d",strlen(text));
+    LinkStack S;
+    initStack(&S);
+    push(&S, 1);
+    push(&S, 2);
+    push(&S, 3);
+    printf("now top is %d\n", getTop(S));
+    printf("remove %d\n", pop(&S));
+    push(&S, 4);
+    printf("push %d in.\n",4);
+    printf("now top is %d\n", getTop(S));
+    printf("remove %d\n", pop(&S));
+    printf("now top is %d\n", getTop(S));
+    printf("remove %d\n", pop(&S));
+    printf("——————————————————————————————————————————————————\n");
+
+    LinkQueue Q;            
+    /*
+    在C语言中，声明一个指针变量（例如 LinkQueue Q;）不会自动为该指针分配内存。
+    当你声明 LinkQueue Q; 时，实际上只是创建了一个指向 Queue 结构的指针，但这个指针没有指向任何有效的内存地址。
+    因此，你必须在使用这个指针之前手动分配内存来存储 Queue 结构。*/
+    Q = (LinkQueue)malloc(sizeof(struct Queue));
+    initQueue(Q);
+    enQueue(Q,1);
+    enQueue(Q,2);
+    enQueue(Q,3);
+    enQueue(Q,4);
+    enQueue(Q,5);
+    printf("队列是否为空:%d\n",QueueisEmpty(Q));
+    printf("队首元素:%d\n",getHead(Q));
+    printf("出队元素:%d\n",deQueue(Q));
+    printf("队首元素:%d\n",getHead(Q));
+    printf("出队元素:%d\n",deQueue(Q));
+    printf("队首元素:%d\n",getHead(Q));
+    printf("出队元素:%d\n",deQueue(Q));
+    printf("队首元素:%d\n",getHead(Q));
+    printf("出队元素:%d\n",deQueue(Q));
+    printf("队首元素:%d\n",getHead(Q));
+    printf("出队元素:%d\n",deQueue(Q));
+    printf("队首元素:%d\n",getHead(Q));
+    printf("队列是否为空:%d\n",QueueisEmpty(Q));
     return 0;
 }

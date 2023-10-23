@@ -60,7 +60,9 @@
       "stdlib.h": "c",
       "string.h": "c",
       "*.c": "c",
-      "ctype.h": "c"
+      "ctype.h": "c",
+      "linkqueue(headnode).h": "c",
+      "linkstack(headnode).h": "c"
     },
     "editor.suggest.snippetsPreventQuickSuggestions": false,
     "aiXcoder.showTrayIcon": true,
