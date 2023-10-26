@@ -6,7 +6,7 @@
 #define LINKQUEUE_HEADNODE_H
 
 typedef struct QNode{
-    int data;
+    ElementType data;
     struct QNode *next;
 }QNode;
 
@@ -25,7 +25,7 @@ int initQueue(LinkQueue Q){
     return 0;
 }
 //入队
-int enQueue(LinkQueue Q,int value){
+int enQueue(LinkQueue Q,ElementType value){
     QNode* ptrNewNode;
     ptrNewNode =(QNode*)malloc(sizeof(QNode));
     ptrNewNode->data=value;
@@ -37,7 +37,7 @@ int enQueue(LinkQueue Q,int value){
     return 0;
 }
 //出队
-int deQueue(LinkQueue Q){
+ElementType deQueue(LinkQueue Q){
     if(Q->front->next==NULL){
         printf("队列为空，无法出队.\n");
         return 1;
@@ -60,7 +60,7 @@ int QueueisEmpty(LinkQueue Q){
         return 0;
 }
 //获取队首元素
-int getHead(LinkQueue Q){
+ElementType getHead(LinkQueue Q){
     if(QueueisEmpty(Q)){
         printf("列表为空，无法获取队首元素.\n");
     }
