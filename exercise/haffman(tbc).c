@@ -13,7 +13,6 @@ typedef struct TreeNode{
 
 //找两个最小的元素
 
-
 //创建哈夫曼树
 Tree createHaffmanTree(Tree lettles[],int n){
     //n是叶子节点的个数
