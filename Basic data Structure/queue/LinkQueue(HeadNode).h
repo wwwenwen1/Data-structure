@@ -13,7 +13,7 @@ typedef struct QNode{
 typedef struct Queue{
     QNode *front;
     QNode *rear;
-}Queue,*LinkQueue;
+}Queue,*LinkQueue,*ptrQueue;
 
 //初始化队列
 int initQueue(LinkQueue Q){
@@ -24,6 +24,7 @@ int initQueue(LinkQueue Q){
 
     return 0;
 }
+
 //入队
 int enQueue(LinkQueue Q,ElementType value){
     QNode* ptrNewNode;
@@ -36,6 +37,7 @@ int enQueue(LinkQueue Q,ElementType value){
 
     return 0;
 }
+
 //出队
 ElementType deQueue(LinkQueue Q){
     if(Q->front->next==NULL){
@@ -44,14 +46,17 @@ ElementType deQueue(LinkQueue Q){
     }
     QNode* ptrTempNode;
     int value;
-    ptrTempNode=Q->front->next;
-    Q->front->next=Q->front->next->next;
-    value=ptrTempNode->data;
+    ptrTempNode=Q->front->next;//指向队头元素
+    Q->front->next=Q->front->next->next;//队头元素出队
+    value=ptrTempNode->data;//获取队头元素的值
+    if(Q->rear==ptrTempNode)//如果队列中只有一个元素，那么出队后，队尾指针指向头结点
+        Q->rear=Q->front;
     free(ptrTempNode);
     Q->front->data--;
 
     return value;
 }
+
 //判断是否为空
 int QueueisEmpty(LinkQueue Q){
     if(Q->front->next==NULL)

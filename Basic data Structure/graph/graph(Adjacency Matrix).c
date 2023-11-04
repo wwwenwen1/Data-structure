@@ -1,9 +1,11 @@
 #include<stdio.h>   
 #include<stdlib.h>
 #include<limits.h>
-/*
-createGraph(&G)函数存在问题，无法正常读取输入的顶点信息，解决办法是
-*/
+//引入队列的头文件
+//定义队列中的元素类型
+#define ElementType char
+#include "../queue/LinkQueue(HeadNode).h"//链式队列的头文件
+
 #define MAX 10
 #define TRUE 1
 #define FALSE 0
@@ -22,12 +24,10 @@ typedef struct Graph
 }Graph,*ptrGraph;
 
 //把顶点集合映射到数组中
-int LocateVex(Graph G, char x){
-    int i;
-    for(i=0; i<G.vexnum; i++)
-    {
-        if(G.vexs[i] == x)
-            return i;
+int LocateVex(Graph G, char x) {
+    int index = x - 'A';  // 假设顶点是小写字母
+    if (index >= 0 && index < G.vexnum) {
+        return index;
     }
     return ERROR;
 }
@@ -197,7 +197,7 @@ char FirstNeighbor(Graph G, char x){
         if(G.arcs[xNum][i]==1)
             return G.vexs[i];
     }
-    printf("没有找到与其相连的节点。\n");
+    //printf("没有找到与其相连的节点。\n");
     return ERROR;
 }
 
@@ -212,7 +212,7 @@ char NextNeighbor(Graph G, char x, char y){
             return G.vexs[i];
         i=(i+1)%G.vexnum;//这里是关键，如果i到了最后一个元素，就从头开始，直到i==yNum
     }
-    printf("没有找到与其相连其他的节点。\n");
+    //printf("没有找到与其相连其他的节点。\n");
     return ERROR;
 }
 
@@ -253,14 +253,44 @@ int SetWeight(ptrGraph ptrG, char x, char y, int w){
     }
 }
 
-// //深度优先遍历
-// void DFS(Graph G){
+//深度优先遍历
+void DFS(Graph G){
 
-// }
+}
 
  //广度优先遍历
- void BFS(Graph G){
-    
+ int BFS(Graph G, char x){
+    int xNum=LocateVex(G,x);
+    int visited[MAX]={0};//标记数组，用于标记是否已经访问过，把所有元素初始化为0
+    LinkQueue Q;
+    Q = (LinkQueue)malloc(sizeof(struct Queue));//创建队列
+    initQueue(Q);
+    enQueue(Q,x);
+    visited[xNum]=1;
+    while(!QueueisEmpty(Q)){
+        char temp=deQueue(Q);//出队,然后把与其相连的节点入队
+        int tempNum=LocateVex(G,temp);
+        printf("%c ",temp);//打印出队的元素
+        char next=FirstNeighbor(G,temp);//把与刚刚出队元素相连的节点入队
+        int nextNum=LocateVex(G,next);
+        while(nextNum!=ERROR && nextNum!=tempNum){
+            if(visited[nextNum]==0){
+                enQueue(Q,next);
+                visited[nextNum]=1;
+            }
+            next=NextNeighbor(G,temp,next);
+            nextNum=LocateVex(G,next);
+        }
+    }
+    //检查是否还有未访问的节点，如果有，就从该节点开始再次进行广度优先遍历
+    int i;
+    for(i=0;i<G.vexnum;i++){
+        if(visited[i]==0){
+            char again=G.vexs[i];
+            BFS(G,again);
+        }
+    }
+    return OK;
  }
 
 //打印邻接矩阵
@@ -273,7 +303,6 @@ void PrintGraph(Graph G){
         printf("\n");
     }
 }
-
 
 int main(){
     Graph G;
@@ -295,6 +324,8 @@ int main(){
     AddEdge(&G,'D','F');
 
     PrintGraph(G);
+    printf("\n");
+    BFS(G,'A');
 
     return 0;
 }
