@@ -206,13 +206,14 @@ char FirstNeighbor(Graph G, char x){
 char NextNeighbor(Graph G, char x, char y){
     int xNum=LocateVex(G,x);
     int yNum=LocateVex(G,y);
-    int i=yNum+1;//从y的下一个节点开始找
-    while(i!=yNum){
-        if(G.arcs[xNum][i]==1)
+    int i=yNum;//从y的下一个节点开始找
+    do{
+        i=(i+1)%G.vexnum;//如果i已经到了最后一个元素，就让i等于0，从头开始找
+        if(G.arcs[xNum][i]==1){
+            //printf("%c除了%c的下一个邻接点是%c\n",x,y,G.vexs[i]);
             return G.vexs[i];
-        i=(i+1)%G.vexnum;//这里是关键，如果i到了最后一个元素，就从头开始，直到i==yNum
-    }//如果没有找到与其相连的节点，就返回ERROR
-    //printf("没有找到与其相连其他的节点。\n");
+        }
+    }while(i!=yNum);//如果x找不到除y之外的其他邻接点，就返回ERROR
     return ERROR;
 }
 
@@ -258,79 +259,33 @@ void DFS(Graph G){
 
 }
 
-// 广度优先遍历
- int BFS(Graph G, char x){
-    int xNum=LocateVex(G,x);
-    int visited[MAX]={0};//标记数组，用于标记是否已经访问过，把所有元素初始化为0
-    LinkQueue Q;
-    Q = (LinkQueue)malloc(sizeof(struct Queue));//创建队列
+void BFS(Graph G, char start){
+    LinkQueue Q=(LinkQueue)malloc(sizeof(struct Queue));
     initQueue(Q);
-    enQueue(Q,x);
-    visited[xNum]=1;
-
+    int visited[MAX]={0};
+    int startNum=LocateVex(G,start);
+    enQueue(Q,start);
+    visited[startNum]=1;
     while(!QueueisEmpty(Q)){
-        char temp=getHead(Q);//出队,然后把与其相连的节点入队
-        int tempNum=LocateVex(G,temp);
-        printf("%c ",temp);//打印出队的元素
-        char next=FirstNeighbor(G,temp);//把与刚刚出队元素相连的节点入队
-        while(next!=ERROR){//如果next不是最后一个元素，且没有被访问过
-            int nextNum=LocateVex(G,next);
-            if(visited[nextNum]==0){
-                enQueue(Q,next);
-                visited[nextNum]=1;
+        char host=deQueue(Q);
+        printf("%c ",host);
+        int hostNum=LocateVex(G,host);
+        char neighbor=FirstNeighbor(G,host);
+        int neighborNum=LocateVex(G,neighbor);
+        char firstNeithbor=neighbor;//记录第一个邻接点,当遍历到第一个邻接点时，说明已经遍历完所有与host相邻的节点
+        while(neighbor!=ERROR){
+            if(visited[neighborNum]==0){
+                enQueue(Q,neighbor);
+                visited[neighborNum]=1;
             }
-            next=NextNeighbor(G,temp,next);//找下一个与temp相连的节点
+            neighbor=NextNeighbor(G,host,neighbor);
+            neighborNum=LocateVex(G,neighbor);
+            if(neighbor==firstNeithbor)
+                break;
         }
-        deQueue(Q);
+
     }
-    //检查是否还有未访问的节点，如果有，就从该节点开始再次进行广度优先遍历
-    int i;
-    for(i=0;i<G.vexnum;i++){
-        if(visited[i]==0){
-            char again=G.vexs[i];
-            BFS(G,again);
-        }
-    }
-    free(Q);
-    return OK;
- }
-// void BFS(Graph G, char start) {
-//     LinkQueue Q; // 使用你的队列数据结构
-//     Q=(LinkQueue)malloc(sizeof(struct Queue));
-//     initQueue(Q);
-
-//     int startIndex = LocateVex(G, start);
-//     if (startIndex == ERROR) {
-//         printf("Start vertex not found.\n");
-//         return;
-//     }
-
-//     printf("Breadth-First Search starting from vertex %c:\n", start);
-
-//     int visited[MAX] = {0}; // 记录顶点是否已经被访问过
-
-//     visited[startIndex] = 1;
-//     printf("%c ", start);
-//     enQueue(Q, start);
-
-//     while (!QueueisEmpty(Q)) {
-//         char vertex = getHead(Q);
-
-//         for (char neighbor = FirstNeighbor(G, vertex); neighbor != ERROR; neighbor = NextNeighbor(G, vertex, neighbor)) {
-//             int neighborIndex = LocateVex(G, neighbor);
-
-//             if (!visited[neighborIndex]) {
-//                 visited[neighborIndex] = 1;
-//                 printf("%c ", neighbor);
-//                 enQueue(Q, neighbor);
-//             }
-//         }
-
-//         deQueue(Q);
-//     }
-
-//     printf("\n");
-// }
+}
 
 
 //打印邻接矩阵
@@ -366,6 +321,5 @@ int main(){
     PrintGraph(G);
     printf("\n");
     BFS(G,'A');
-
     return 0;
 }
