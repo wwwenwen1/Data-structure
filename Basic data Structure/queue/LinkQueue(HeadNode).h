@@ -67,7 +67,7 @@ int QueueisEmpty(LinkQueue Q){
 //获取队首元素
 ElementType getHead(LinkQueue Q){
     if(QueueisEmpty(Q)){
-        printf("列表为空，无法获取队首元素.\n");
+        return -1;
     }
     else 
         return Q->front->next->data;
