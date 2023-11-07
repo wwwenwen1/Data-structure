@@ -264,13 +264,12 @@ void DFS(Graph G,char start){
     host=start;
     hostNum=LocateVex(G,host);
 
-    push(&S,host);
     printf("%c ",host);
     visited[hostNum]=1;
     neighbor=FirstNeighbor(G,host);
     neighborNum=LocateVex(G,neighbor);
     
-    while(!StackisEmpty(S)){//
+    do{//
         //更新host位置
         exhost=host;
         exhostNum=hostNum;
@@ -278,21 +277,36 @@ void DFS(Graph G,char start){
         hostNum=neighborNum;
         neighbor=NextNeighbor(G,host,exhost);
         neighborNum=LocateVex(G,neighbor);
-        push(&S,exhost);
+        if(exhost!=getTop(S))//如果栈顶元素不是exhost，说明exhost的邻接点还没有被访问过，就把exhost入栈
+            push(&S,exhost);
         printf("%c ",host);
         visited[hostNum]=1;
+        char temp=neighbor;//保存当前邻接点，当下一次遍历到该邻接点时，说明已经遍历完所有与host相邻的节点
         while(visited[neighborNum]==1){//如果找到的邻接点已经被访问过，就继续寻找除该邻近节点以外的其他邻近接点
-            char temp=neighbor;//保存当前邻接点，当下一次遍历到该邻接点时，说明已经遍历完所有与host相邻的节点
+            //char temp=neighbor;//保存当前邻接点，当下一次遍历到该邻接点时，说明已经遍历完所有与host相邻的节点
             neighbor=NextNeighbor(G,host,neighbor);
             neighborNum=LocateVex(G,neighbor);
-            if(neighbor==temp){//已经遍历完所有与host相邻的节点，仍然不满足while条件，说明栈顶元素的邻接点都被访问过了，就弹出栈顶元素
+            if(neighbor==temp){//如果遍历到第一个邻接点，说明已经遍历完所有与host相邻的节点,就回退到上一个节点
                 host=pop(&S);
                 hostNum=LocateVex(G,host);
+                exhost=getTop(S);
+                exhostNum=LocateVex(G,exhost);
+                neighbor=NextNeighbor(G,host,exhost);
+                neighborNum=LocateVex(G,neighbor);
+                temp=neighbor;
 
             }
         }
+    }while(!StackisEmpty(S));
+    //如果遍历完所有与start连通的节点，但是还有未被访问的节点，就从该节点开始重新执行DFS
+    //以下用于遍历与start不连通的节点
+    int i=0;
+    while(i<G.vexnum){//如果有未被访问的节点，就从该节点开始继续遍历
+        if(visited[i]==0){
+            DFS(G,G.vexs[i]);
+        }
+        i++;
     }
-        
 }
 
 //

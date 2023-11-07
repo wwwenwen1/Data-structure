@@ -60,7 +60,11 @@ ElementType pop(LinkStack* ptrL){
 }
 //
 ElementType getTop(LinkStack L){
-    return L->next->data;               //L是指向头节点的指针(头指针)，L->next是指向第二个节点的指针(真正开始存储数据的节点)，L->next->data是第二个节点的数据域
+    if(L->next==NULL){
+        //printf("ERROR,stack is empty.\n");
+        return -1;
+    }else{
+    return L->next->data;}              //L是指向头节点的指针(头指针)，L->next是指向第二个节点的指针(真正开始存储数据的节点)，L->next->data是第二个节点的数据域
 }
 
 #endif //LINKSTACK_H
