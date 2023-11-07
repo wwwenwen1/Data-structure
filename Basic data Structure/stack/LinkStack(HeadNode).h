@@ -43,6 +43,7 @@ int push(LinkStack* ptrL,ElementType value){
     NewNode->next=(*ptrL)->next;        //先让新节点的next指向头指针，然后让头指针指向新节点
     NewNode->data=value;
     (*ptrL)->next=NewNode;                      //*ptrL（头指针的指向）是头结点，
+    (*ptrL)->data=(*ptrL)->data+1;            //头结点的数据域存储栈的长度
 
     return 0;
 }
@@ -54,6 +55,7 @@ ElementType pop(LinkStack* ptrL){
     value=TopNode->data;                
     (*ptrL)->next=TopNode->next;        //让首节点的后继节点变成第三个节点
     free(TopNode);                      //释放第二个节点
+    (*ptrL)->data=(*ptrL)->data-1;      //头结点的数据域存储栈的长度
     return value;
 }
 //
