@@ -5,7 +5,7 @@
 #define LINKSTACK_H
 
 typedef struct node{
-    int data;
+    ElementType data;
     struct node* next;
 }SNode,*LinkStack;
 
@@ -31,7 +31,7 @@ int StackisEmpty(LinkStack L){
         return 0;
 }
 //
-int push(LinkStack* ptrL,int value){
+int push(LinkStack* ptrL,ElementType value){
     SNode* NewNode;
     SNode* headNode;
     headNode=(*ptrL)->next;
@@ -47,9 +47,9 @@ int push(LinkStack* ptrL,int value){
     return 0;
 }
 //
-int pop(LinkStack* ptrL){
+ElementType pop(LinkStack* ptrL){
     SNode* TopNode;
-    int value;
+    ElementType value;
     TopNode=(*ptrL)->next;              //取出第二个节点
     value=TopNode->data;                
     (*ptrL)->next=TopNode->next;        //让首节点的后继节点变成第三个节点
@@ -57,7 +57,7 @@ int pop(LinkStack* ptrL){
     return value;
 }
 //
-int getTop(LinkStack L){
+ElementType getTop(LinkStack L){
     return L->next->data;               //L是指向头节点的指针(头指针)，L->next是指向第二个节点的指针(真正开始存储数据的节点)，L->next->data是第二个节点的数据域
 }
 

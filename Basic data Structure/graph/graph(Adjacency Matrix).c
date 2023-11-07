@@ -5,7 +5,7 @@
 //定义队列中的元素类型
 #define ElementType char
 #include "../queue/LinkQueue(HeadNode).h"//链式队列的头文件
-
+#include "../stack/LinkStack(HeadNode).h"//链式栈的头文件
 #define MAX 10
 #define TRUE 1
 #define FALSE 0
@@ -15,8 +15,7 @@
 #define INFINITY INT_MAX
 
 //邻接矩阵
-typedef struct Graph
-{
+typedef struct Graph{
     int vexnum; //顶点数
     int arcnum; //边数
     char vexs[MAX]; //顶点集合
@@ -183,7 +182,7 @@ if(isEdge(*ptrG,x,y)){
     ptrG->arcnum--;
     return OK;
 }else{
-    printf("所找边不存在，无法删除\n");
+    printf("所找边不存在，无法删除。\n");
     return NOTOK;
 }
 }
@@ -255,43 +254,97 @@ int SetWeight(ptrGraph ptrG, char x, char y, int w){
 }
 
 //深度优先遍历
-void DFS(Graph G){
+void DFS(Graph G,char start){
+    LinkStack S=(LinkStack)malloc(sizeof(struct node));
+    initStack(&S);
+    int visited[MAX]={0};
+    char neighbor,host,exhost;
+    int neighborNum,hostNum,exhostNum;
 
+    host=start;
+    hostNum=LocateVex(G,host);
+
+    push(&S,host);
+    printf("%c ",host);
+    visited[hostNum]=1;
+    neighbor=FirstNeighbor(G,host);
+    neighborNum=LocateVex(G,neighbor);
+    
+    while(!StackisEmpty(S)){//
+        //更新host位置
+        exhost=host;
+        exhostNum=hostNum;
+        host=neighbor;
+        hostNum=neighborNum;
+        neighbor=NextNeighbor(G,host,exhost);
+        neighborNum=LocateVex(G,neighbor);
+        push(&S,exhost);
+        printf("%c ",host);
+        visited[hostNum]=1;
+        while(visited[neighborNum]==1){//如果找到的邻接点已经被访问过，就继续寻找除该邻近节点以外的其他邻近接点
+            char temp=neighbor;//保存当前邻接点，当下一次遍历到该邻接点时，说明已经遍历完所有与host相邻的节点
+            neighbor=NextNeighbor(G,host,neighbor);
+            neighborNum=LocateVex(G,neighbor);
+            if(neighbor==temp){//已经遍历完所有与host相邻的节点，仍然不满足while条件，说明栈顶元素的邻接点都被访问过了，就弹出栈顶元素
+                host=pop(&S);
+                hostNum=LocateVex(G,host);
+
+            }
+        }
+    }
+        
 }
 
+//
 void BFS(Graph G, char start){
     LinkQueue Q=(LinkQueue)malloc(sizeof(struct Queue));
     initQueue(Q);
-    int visited[MAX]={0};
+    int visited[MAX]={0};//用于记录节点是否被访问过
     int startNum=LocateVex(G,start);
     enQueue(Q,start);
-    visited[startNum]=1;
-    while(!QueueisEmpty(Q)){
-        char host=deQueue(Q);
+    visited[startNum]=1;//visited为全局变量，用于记录节点是否被访问过
+    while(!QueueisEmpty(Q)){//队列为空代表遍历完所有与start连通的节点
+        char host=deQueue(Q);//队首出队列，然后把与其相邻的节点入队列
         printf("%c ",host);
         int hostNum=LocateVex(G,host);
-        char neighbor=FirstNeighbor(G,host);
+        char neighbor=FirstNeighbor(G,host);//获取队首的第一个邻接点
         int neighborNum=LocateVex(G,neighbor);
         char firstNeithbor=neighbor;//记录第一个邻接点,当遍历到第一个邻接点时，说明已经遍历完所有与host相邻的节点
-        while(neighbor!=ERROR){
-            if(visited[neighborNum]==0){
+        while(neighbor!=ERROR){//邻节点不存在时终止循环，该条件会在1.队首没有邻接点时触发firstNeighbor==ERROR 2.遍历完队首唯一的邻接点时触发NextNeighbor==ERROR
+            if(visited[neighborNum]==0){//如果该邻接点没有被访问过，就入队列,并且标记为已访问
                 enQueue(Q,neighbor);
                 visited[neighborNum]=1;
             }
-            neighbor=NextNeighbor(G,host,neighbor);
-            neighborNum=LocateVex(G,neighbor);
-            if(neighbor==firstNeithbor)
+            neighbor=NextNeighbor(G,host,neighbor);//获取下一个邻接点
+            neighborNum=LocateVex(G,neighbor);//获取下一个邻接点的下标
+            if(neighbor==firstNeithbor)//如果遍历到第一个邻接点，说明已经遍历完所有与host相邻的节点
                 break;
         }
-
+    }
+    //如果遍历完所有与start连通的节点，但是还有未被访问的节点，就从该节点开始重新执行BFS
+    //以下用于遍历与start不连通的节点
+    int i=0;
+    while(i<G.vexnum){//如果有未被访问的节点，就从该节点开始继续遍历
+        if(visited[i]==0){
+            BFS(G,G.vexs[i]);
+        }
+        i++;
     }
 }
 
 
 //打印邻接矩阵
 void PrintGraph(Graph G){
+    //打印顶点集合
+    printf("      ");//先打印一个空格，为了对齐
+    for(int i=0;i<G.vexnum;i++){
+        printf("%5c ",G.vexs[i]);
+    }
+    printf("\n");
+    //打印邻接矩阵
     int i=0,j=0;
     for(i=0;i<G.vexnum;i++){
+        printf("%5c ",G.vexs[i]);
         for(j=0;j<G.vexnum;j++){
             printf("%5d ",G.arcs[i][j]);
         }
@@ -309,17 +362,28 @@ int main(){
     InsertVertex(&G,'D');
     InsertVertex(&G,'E');
     InsertVertex(&G,'F');
+    InsertVertex(&G,'G');
 
     AddEdge(&G,'A','B');
     AddEdge(&G,'A','C');
     AddEdge(&G,'A','D');
-    AddEdge(&G,'B','E');
-    AddEdge(&G,'C','E');
-    AddEdge(&G,'B','F');
-    AddEdge(&G,'D','F');
 
+    AddEdge(&G,'B','C');
+    AddEdge(&G,'B','D');
+    AddEdge(&G,'B','E');
+    AddEdge(&G,'B','G');
+
+    AddEdge(&G,'C','E');
+    AddEdge(&G,'C','F');
+    AddEdge(&G,'C','G');
+
+    AddEdge(&G,'E','F');
     PrintGraph(G);
     printf("\n");
-    BFS(G,'A');
+    BFS(G,'B');
+    printf("\n");
+    DFS(G,'B');
+    printf("\n");
+
     return 0;
 }
