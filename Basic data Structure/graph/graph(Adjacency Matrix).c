@@ -376,27 +376,20 @@ int main(){
     InsertVertex(&G,'D');
     InsertVertex(&G,'E');
     InsertVertex(&G,'F');
-    InsertVertex(&G,'G');
 
     AddEdge(&G,'A','B');
+    AddEdge(&G,'A','E');
     AddEdge(&G,'A','C');
-    AddEdge(&G,'A','D');
 
-    AddEdge(&G,'B','C');
-    AddEdge(&G,'B','D');
     AddEdge(&G,'B','E');
-    AddEdge(&G,'B','G');
 
-    AddEdge(&G,'C','E');
     AddEdge(&G,'C','F');
-    AddEdge(&G,'C','G');
+    AddEdge(&G,'F','D');
 
-    AddEdge(&G,'E','F');
+    AddEdge(&G,'E','D');
     PrintGraph(G);
     printf("\n");
-    BFS(G,'B');
-    printf("\n");
-    DFS(G,'B');
+    DFS(G,'A');
     printf("\n");
 
     return 0;

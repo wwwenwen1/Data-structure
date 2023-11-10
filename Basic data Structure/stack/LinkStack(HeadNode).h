@@ -49,6 +49,9 @@ int push(LinkStack* ptrL,ElementType value){
 }
 //
 ElementType pop(LinkStack* ptrL){
+    if((*ptrL)->data==0){//栈为空，无法出栈
+        return -1;
+    }
     SNode* TopNode;
     ElementType value;
     TopNode=(*ptrL)->next;              //取出第二个节点
